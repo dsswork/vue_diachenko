@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body class="vuebody">
+    <form class="form-signin" style="margin-top: 3%; margin-left: 25%;" v-if="showForm">
+        <div class="w-50" >
+            <label>Email</label>
+            <input class="form-control" v-model="email" @keyup="checkFields()">
+            <label>Phone</label>
+            <input class="form-control" v-model="phone" @keyup="checkFields()">
+            <label>FirstName</label>
+            <input class="form-control" v-model="firstName" @keyup="checkFields()">
+            <label>LastName</label>
+            <input class="form-control" v-model="lastName" @keyup="checkFields()">
+        </div>
+        <div style="margin-top: 10px;">
+            <label >Guests</label>
+            <button type="button" class="btn btn-primary" style="margin-left: 10px;" @click="addGuest()">+</button>
+       
+            <div class="w-50" v-for="guest, i in guests">
+                <label @dblclick="removeGuest(i)">{{ guest + (i+1)}}</label>
+                <input class="form-control" v-model="names[i]">
+            </div>
+            <div style="margin-top: 10px;">
+            <button class="btn btn-success" @click="nextWindow()"
+                type="button" :disabled="sendOn">Send data</button>
+        </div>
+        </div>
+    </form>
+
+    <div class="w-50" v-if="showTable" style="margin-left: 25%; margin-top: 5%;">
+        <h3>All done!</h3>
+    <table class="table table-bordered">
+        <tbody>
+          <tr>
+            <td>Email</td>
+            <td>{{ email }}</td>
+          </tr>
+          <tr>
+            <td>Phone</td>
+            <td>{{ phone }}</td>
+          </tr>
+          <tr>
+            <td>Full Name</td>
+            <td>{{ firstName + ' ' + lastName }}</td>
+          </tr>
+          <tr>
+            <td>Guests</td>
+            <td>
+                <template v-for="name in names">
+                    <tr>
+                        <td>{{ name }}</td>
+                    </tr>
+                </template>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <script src="https://unpkg.com/vue@next"></script>
+    <script>
+        
+    Vue.createApp({ 
+	    data() { 
+		    return {
+                email: '',
+                phone: '',
+                firstName: '',
+                lastName: '',
+                guests: [],
+                names: [],
+			    author: "hey",
+                i: 1,
+                sendOn: true,
+                showForm: true,
+                showTable: false
+            }
+        },
+        methods: {
+            addGuest() {
+                this.guests.push("Guest ");
+                this.names.push("");
+                this.i++;
+            },
+            removeGuest(el) {
+                this.guests.splice(el, 1)
+                this.names.splice(el, 1)
+            },
+            checkFields() {
+                if(Object.keys(this.email).length != 0&&Object.keys(this.phone).length != 0&&
+                Object.keys(this.firstName).length != 0&&Object.keys(this.lastName).length != 0) {
+                    this.sendOn = false
+                } else {
+                    this.sendOn = true
+                }
+            },
+            nextWindow() {
+                this.names = this.names.filter(name => name.length > 0)
+                this.showForm = false
+                this.showTable = true
+            }
+        },
+    }).mount('.vuebody') 
+
+    </script>  
+
+</body>
+</html>
