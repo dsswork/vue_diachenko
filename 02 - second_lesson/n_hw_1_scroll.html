@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="ru">
+<head>
+	 <meta charset="UTF-8">
+	 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	 <title>1</title>
+	 <link rel="stylesheet" href="css/bootstrap.min.css">
+	 <link rel="stylesheet" href="css/font-awesome.min.css">
+	 <link href="css/styles.css" rel="stylesheet">
+	<style>
+		.content{
+			height: 300px;
+			overflow: auto;
+		}
+	</style>
+	 <script src="js/vue.js"></script>
+</head>
+<body>
+	<div class="wrapper">
+		<div class="sample">
+			<form v-if="form">
+				<div class="content alert alert-info" ref="scrolledDiv" @scroll="isEndScroll()">
+					<p>This text no one reads. This text no one reads. This text no one reads.</p>
+					<p>This text no one reads. This text no one reads. This text no one reads.</p>
+					<p>This text no one reads. This text no one reads. This text no one reads.</p>
+					<p>This text no one reads. This text no one reads. This text no one reads.</p>
+					<p>This text no one reads. This text no one reads. This text no one reads.</p>
+					<p>This text no one reads. This text no one reads. This text no one reads.</p>
+					<p>This text no one reads. This text no one reads. This text no one reads.</p>
+					<p>This text no one reads. This text no one reads. This text no one reads.</p>
+					<p>This text no one reads. This text no one reads. This text no one reads.</p>
+					<p>This text no one reads. This text no one reads. This text no one reads.</p>
+					<p>This text no one reads. This text no one reads. This text no one reads.</p>
+					<p>This text no one reads. This text no one reads. This text no one reads.</p>
+					<p>This text no one reads. This text no one reads. This text no one reads.</p>
+					<p>This text no one reads. This text no one reads. This text no one reads.</p>
+					<p>This text no one reads. This text no one reads. This text no one reads.</p>
+					<p>This text no one reads. This text no one reads. This text no one reads.</p>
+					<p>This text no one reads. This text no one reads. This text no one reads.</p>
+					<p>This text no one reads. This text no one reads. This text no one reads.</p>
+					<p>This text no one reads. This text no one reads. This text no one reads.</p>
+					<p>This text no one reads. This text no one reads. This text no one reads.</p>
+				</div>
+				<div v-show="endScroll">
+				<div class="form-check">
+					<label class="form-check-label">
+						<input class="form-check-input" v-model="showButton" type="checkbox"> 
+						Agree all
+					</label>
+				</div>
+				<div class="form-check">
+					<label class="form-check-label">
+						<input class="form-check-input" v-model="showRadio" type="checkbox"> 
+						Get spam
+					</label>
+				</div>
+				</div>
+				<div class="form-check" v-show="showRadio">
+					<input class="form-check-input" value="Email" v-model="spam" type="radio">Email<br>
+					<input class="form-check-input" value="Phone" v-model="spam" type="radio">Phone
+				</div>
+				<button type="button" class="btn btn-primary" :disabled="!showButton" @click="form=!form">
+					Send Data
+				</button>
+			</form>
+			<div v-else>
+				<table class="table table-bordered">
+					<tr>
+						<td>Agree all</td>
+						<td>Yes</td>
+					</tr>
+					<tr>
+						<td>Get spam</td>
+						<td>{{spamAnswer}}</td>
+					</tr>
+					<tr v-show="showRadio">
+						<td>Spam type</td>
+						<td>{{spam}}</td>
+					</tr>
+				</table>
+			</div> 
+		</div>
+	</div>
+	<script>
+		
+		Vue.createApp({
+			data: () => ({
+				endScroll: false,
+				showButton: false,
+				showRadio: false,
+				spam: 'Email',
+				form: true
+			}),
+			methods:{
+				isEndScroll() {
+					if(!this.endScroll)
+					this.endScroll = this.$refs.scrolledDiv.scrollHeight - this.$refs.scrolledDiv.scrollTop < this.$refs.scrolledDiv.clientHeight + 1
+				}
+			},
+			computed: {
+				spamAnswer() {
+					return this.showRadio ? 'Yes' : 'No'
+				}
+			}
+		}).mount('.sample');
+
+	</script>
+</body>
+</html>
