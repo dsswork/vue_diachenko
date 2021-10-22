@@ -1,7 +1,7 @@
 <template>
     <div class="form-group my-input">
 		<label>{{ this.name }}</label>
-		<input type="text" class="form-control" :class="isError">
+		<input type="text" class="form-control" :class="isError" @input="$emit('inputData', $event.target.value, id)">
 	</div>
 </template>
 
@@ -9,7 +9,7 @@
 
 
 export default {
-    props: ['name', 'isRight'],
+    props: ['name', 'isRight', 'id'],
     computed: {
         isError() {
             switch (this.isRight) {

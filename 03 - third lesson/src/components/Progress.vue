@@ -1,7 +1,7 @@
 <template>
     <label>Progress:</label>
     <div class="progress my-progress">    
-		<div class="progress-bar" :style="progress"></div>
+		<div class="progress-bar" :style="width"></div>
 	</div>
 </template>
 
@@ -10,14 +10,6 @@
 
 export default {
     props: ['width'],
-    computed: {
-        progress() {
-            return 'width:' + this.width + '%'
-        }
-    },
-    setup() {
-        
-    },
 }
 </script>
 
