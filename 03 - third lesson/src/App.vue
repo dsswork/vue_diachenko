@@ -5,6 +5,7 @@
 	<button class="btn btn-primary my-button" disabled>
 		Send Data
 	</button>
+	{{ info }}
   </div>
 </template>
 
