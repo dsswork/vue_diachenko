@@ -14,12 +14,12 @@
 		  <div class="sample">
 				<form>
 				<div class="progress">
-					<div class="progress-bar"></div>
+					<div class="progress-bar" :style="progress"></div>
 				</div>
 				<div>
-					<div class="form-group">
-						<label>name</label>
-						<input type="text" class="form-control">
+					<div class="form-group" v-for="item in info">
+						<label>{{ item.name }}<b v-if="item.isValidate" style="color: red;">&nbsp;Bad</b><b v-if="!item.isValidate&&item.value" style="color: green;">&nbsp;Good</b></label>
+						<input type="text" v-model="item.value" class="form-control" @keyup="checkValid(item)">
 					</div>
 				</div>
 				<button class="btn btn-primary">
@@ -67,7 +67,33 @@
 						pattern: /.+/
 					}
 				]
-			})
+			}),
+			methods: {
+				checkValid(item) {
+					if(item.value) {
+						item.isValidate = true
+						if(item.pattern.test(item.value)) {
+							item.isValidate = false
+						}
+					}
+				}
+			},
+			computed: {
+				progress() {
+					let how = this.info.reduce(function(accumulator, currentValue) {
+						if(!currentValue.isValidate&&currentValue.value)
+  							accumulator++;
+							  return accumulator;
+						}, 0)
+					
+					return 'width:' + how/this.info.length*100 + '%';
+				}
+			},
+			created() {
+				this.info.forEach(element => {
+					element.isValidate = false;
+				});
+			},
 		}).mount('.sample');
 	</script>
 </body>
